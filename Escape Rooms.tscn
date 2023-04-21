@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://4eu7r78uq5qq"]
+
+[ext_resource type="Material" uid="uid://d088w62xgek4f" path="res://new_standard_material_3d.tres" id="1_3swv8"]
+[ext_resource type="PackedScene" uid="uid://3u7ax37uf5s3" path="res://character_body_3d.tscn" id="3_ks1k6"]
+[ext_resource type="PackedScene" uid="uid://5i2pe17wyuig" path="res://curved.glb" id="4_bsrtn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3dk0b"]
+sky_top_color = Color(0.0627451, 0.0823529, 0.113725, 1)
+sky_horizon_color = Color(0.145098, 0.14902, 0.156863, 1)
+sky_cover_modulate = Color(0.0980392, 0.0980392, 0.0980392, 1)
+ground_bottom_color = Color(0.0196078, 0.0117647, 0.00784314, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_energy_multiplier = 0.9
+
+[sub_resource type="Sky" id="Sky_ioqhp"]
+sky_material = SubResource("ProceduralSkyMaterial_3dk0b")
+radiance_size = 6
+
+[sub_resource type="Environment" id="Environment_slcrc"]
+background_mode = 2
+sky = SubResource("Sky_ioqhp")
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.48
+glow_strength = 0.03
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_npy36"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dp5f6"]
+material = ExtResource("1_3swv8")
+
+[node name="world" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.56992, 1.14935, 0.540283)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_slcrc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.25, 0.281187, -0.0083381, 0.959617, -0.413445, 0.901348, 0.128979, 0, 0, 0)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(29.7459, 0, 0, 0, 5.11035, 0, 0, 0, 27.1549, -4.23328, 10.1041, -206.27)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_npy36")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(36.3523, 0, 0, 0, 10, 0, 0, 0, 42.5065, -1.39032, 0.141482, 0.516832)
+material_override = ExtResource("1_3swv8")
+mesh = SubResource("PlaneMesh_dp5f6")
+
+[node name="curved" parent="." instance=ExtResource("4_bsrtn")]
+transform = Transform3D(853.629, 0, 0, 0, -247.219, -316.585, 0, 6259.29, -12.504, 0, 0, 0)
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("3_ks1k6")]
